@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-white text-black;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    @apply bg-background text-white;
+  }
+}
+
+.post-paragraph,
+.post-blockquote {
+  @apply text-lg tracking-wide;
+}
+
+.post-blockquote::before {
+  content: "“";
+  font-family: "Times New Roman", serif;
+  font-size: 6em;
+  font-weight: bold;
+  position: absolute;
+  left: -8px;
+  top: 4px;
+  opacity: 0.25;
+}
+
+.post-blockquote::after {
+  content: "”";
+  font-family: "Times New Roman", serif;
+  font-size: 6em;
+  font-weight: bold;
+  position: absolute;
+  right: 0px;
+  top: 4px;
+  opacity: 0.25;
+}
+
+.list li::marker {
+  @apply text-teal-500;
+}
+
+.list {
+  @apply pl-8 mb-9 [&>li]:mb-4 [&>li]:pl-2 text-lg tracking-wide;
+}
