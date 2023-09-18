@@ -1,5 +1,9 @@
-import { defineDocumentType, makeSource } from "contentlayer/source-files";
-import readingTime from "reading-time";
+import {
+  defineDocumentType,
+  defineNestedType,
+  makeSource,
+} from "contentlayer/source-files";
+import readingTime, { ReadTimeResults } from "reading-time";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeSlug from "rehype-slug";
 import remarkGfm from "remark-gfm";
@@ -11,6 +15,10 @@ export const Post = defineDocumentType(() => ({
   contentType: "mdx",
   fields: {
     title: { type: "string", required: true },
+    description: {
+      type: "string",
+      required: true,
+    },
     publishedAt: {
       type: "date",
       required: true,
@@ -18,9 +26,14 @@ export const Post = defineDocumentType(() => ({
     updatedAt: {
       type: "date",
     },
-    description: {
-      type: "string",
+    categories: {
+      type: "list",
+      of: { type: "string" },
       required: true,
+    },
+    isPublished: {
+      type: "boolean",
+      default: true,
     },
   },
   computedFields: {
@@ -41,7 +54,7 @@ export const Post = defineDocumentType(() => ({
           ({ groups }) => {
             const flag = groups?.flag;
             const content = groups?.content;
-            
+
             return {
               level:
                 flag?.length == 1 ? "one" : flag?.length == 2 ? "two" : "three",
@@ -64,7 +77,7 @@ export default makeSource({
     remarkPlugins: [remarkGfm],
     rehypePlugins: [
       rehypeSlug,
-      [rehypeAutolinkHeadings, { behavior: "append" }],
+      [rehypeAutolinkHeadings, { behavior: "prepend" }],
     ],
   },
 });
