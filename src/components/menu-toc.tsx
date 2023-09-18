@@ -26,7 +26,8 @@ const MenuToc = ({ toc }: Props) => {
       return null;
     });
 
-    const scrollPosition = window.scrollY + 138;
+    // 180 = 80height HEADER + 80 Scroll margin top + paddings
+    const scrollPosition = window.scrollY + 180;
 
     for (let i = headingOffsets.length - 1; i >= 0; i--) {
       if (!headingOffsets[i]) break;
@@ -57,13 +58,14 @@ const MenuToc = ({ toc }: Props) => {
         Tabela de Conteúdo
       </summary>
       <ul className="mt-4 text-base">
-        <li key={`#intro`} className="py-1">
+        <li className="py-1">
           <a
-            href={`#intro`}
+            href={`#introduction`}
             data-level="one"
             className={cn(
               "flex items-center justify-start text-gray-500 font-medium hover:text-gray-600 dark:hover:text-white transition-colors",
-              activeHeading === "intro" && "dark:text-teal-500 text-sky-700"
+              activeHeading === "introduction" &&
+                "dark:text-teal-500 text-sky-700"
             )}
           >
             Introdução

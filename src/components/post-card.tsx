@@ -4,14 +4,9 @@ import Link from "next/link";
 
 export function PostCard(post: Post) {
   return (
-    <div className="mb-8">
-      <h2 className="mb-1 text-xl">
-        <Link
-          href={post.url}
-          className="text-blue-700 hover:text-blue-900 dark:text-blue-400"
-        >
-          {post.title}
-        </Link>
+    <Link className="mb-8" href={post.url}>
+      <h2 className="mb-1 text-xl text-blue-700 hover:text-blue-900 dark:text-blue-400">
+        {post.title}
       </h2>
       <span>{post.readingTime.text}</span>
       <time
@@ -21,6 +16,6 @@ export function PostCard(post: Post) {
         {format(parseISO(post.publishedAt), "LLLL d, yyyy")}
       </time>
       <p className="leading-4">{post.description}</p>
-    </div>
+    </Link>
   );
 }
