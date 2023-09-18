@@ -31,8 +31,8 @@ const PostLayout = ({ params }: { params: { slug: string } }) => {
   if (!post) notFound();
 
   return (
-    <main className="mx-auto max-w-6xl px-4 py-24 lg:grid lg:grid-cols-[minmax(400px,_680px)_1fr] lg:gap-20">
-      <article>
+    <main className="mx-auto max-w-[680px] xl:max-w-6xl px-4 py-48 xl:grid xl:grid-cols-[minmax(400px,_680px)_1fr] xl:gap-20">
+      <div>
         <div className="mb-8">
           <h1
             id="introduction"
@@ -42,7 +42,7 @@ const PostLayout = ({ params }: { params: { slug: string } }) => {
           </h1>
           <div className="flex items-center gap-2 mt-4 text-sm text-gray-600">
             <time dateTime={post.publishedAt}>
-              {format(parseISO(post.publishedAt), "d MMMM yyyy", {
+              {format(parseISO(post.publishedAt), "d/MMM/yyy", {
                 locale: ptBR,
               })}
             </time>
@@ -50,8 +50,11 @@ const PostLayout = ({ params }: { params: { slug: string } }) => {
             <span>{post.readingTime.text}</span>
           </div>
         </div>
-        <MDXRender code={post.body.code} />
-      </article>
+        <article>
+          <MDXRender code={post.body.code} />
+        </article>
+      </div>
+
       <MenuToc toc={post.toc} />
     </main>
   );

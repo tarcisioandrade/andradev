@@ -26,8 +26,8 @@ const MenuToc = ({ toc }: Props) => {
       return null;
     });
 
-    // 180 = 80height HEADER + 80 Scroll margin top + paddings
-    const scrollPosition = window.scrollY + 180;
+    // 180 = 70height HEADER + 80 Scroll margin top + paddings
+    const scrollPosition = window.scrollY + 200;
 
     for (let i = headingOffsets.length - 1; i >= 0; i--) {
       if (!headingOffsets[i]) break;
@@ -50,53 +50,52 @@ const MenuToc = ({ toc }: Props) => {
   }, [handleScroll]);
 
   return (
-    <details
-      className="hidden lg:block text-dark dark:text-light rounded-lg p-4 sticky top-6 max-h-[80vh] overflow-hidden overflow-y-auto"
-      open
-    >
-      <summary className="mt-24 text-md font-semibold cursor-pointer uppercase tracking-widest">
-        Tabela de Conteúdo
-      </summary>
-      <ul className="mt-4 text-base">
-        <li className="py-1">
-          <a
-            href={`#introduction`}
-            data-level="one"
-            className={cn(
-              "flex items-center justify-start text-gray-500 font-medium hover:text-gray-600 dark:hover:text-white transition-colors",
-              activeHeading === "introduction" &&
-                "dark:text-teal-500 text-sky-700"
-            )}
-          >
-            Introdução
-          </a>
-        </li>
-        {toc.map(({ slug, level, text }) => {
-          const isActive = slug === activeHeading;
+    <aside className="hidden xl:block text-dark dark:text-light rounded-lg sticky top-1 max-h-[80vh] overflow-hidden overflow-y-auto">
+      <details open>
+        <summary className="mt-[164px] text-md font-semibold cursor-pointer uppercase tracking-widest">
+          Tabela de Conteúdo
+        </summary>
+        <ul className="mt-4 text-base">
+          <li className="py-1">
+            <a
+              href={`#introduction`}
+              data-level="one"
+              className={cn(
+                "flex items-center justify-start text-gray-500 font-medium hover:text-gray-600 dark:hover:text-white transition-colors",
+                activeHeading === "introduction" &&
+                  "dark:text-teal-500 text-sky-700"
+              )}
+            >
+              Introdução
+            </a>
+          </li>
+          {toc.map(({ slug, level, text }) => {
+            const isActive = slug === activeHeading;
 
-          return (
-            <li key={`#${slug}`} className="py-1">
-              <a
-                href={`#${slug}`}
-                data-level={level}
-                className={cn(
-                  "data-[level=two]:pl-2 data-[level=three]:pl-4 sm:data-[level=three]:pl-6 flex items-center justify-start text-gray-500 font-medium hover:text-gray-600 dark:hover:text-white transition-colors",
-                  isActive && "dark:text-teal-500 text-sky-700"
-                )}
-              >
-                {level === "three" ? (
-                  <span className="flex w-1 h-1 rounded-full bg-dark mr-2">
-                    &nbsp;
-                  </span>
-                ) : null}
+            return (
+              <li key={`#${slug}`} className="py-1">
+                <a
+                  href={`#${slug}`}
+                  data-level={level}
+                  className={cn(
+                    "data-[level=two]:pl-2 data-[level=three]:pl-4 sm:data-[level=three]:pl-6 flex items-center justify-start text-gray-500 font-medium hover:text-gray-600 dark:hover:text-white transition-colors",
+                    isActive && "dark:text-teal-500 text-sky-700"
+                  )}
+                >
+                  {level === "three" ? (
+                    <span className="flex w-1 h-1 rounded-full bg-dark mr-2">
+                      &nbsp;
+                    </span>
+                  ) : null}
 
-                {text}
-              </a>
-            </li>
-          );
-        })}
-      </ul>
-    </details>
+                  {text}
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+      </details>
+    </aside>
   );
 };
 

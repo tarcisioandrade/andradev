@@ -19,7 +19,7 @@ const Code = ({ code, language, filename }: Props) => {
       title={filename}
       lang={language}
       style={{ margin: "48px 0 80px 0" }}
-      className="[&>pre]:lg:!px-4 lg:!ml-[-32px]"
+      className="[&>pre]:xl:!px-4 xl:!ml-[-32px]"
     />
   );
 };
