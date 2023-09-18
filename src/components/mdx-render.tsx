@@ -3,8 +3,9 @@ import { useMDXComponent } from "next-contentlayer/hooks";
 import Warning from "./ui-post/warning";
 import Code from "./ui-post/code";
 import { MDXComponents } from "mdx/types";
-import Highlight from "./ui-post/highlight";
 import Image from "next/image";
+import Link from "next/link";
+import { ExternalLink } from "lucide-react";
 
 type Props = {
   code: string;
@@ -46,22 +47,34 @@ const mdxComponents: MDXComponents = {
       {children}
     </h3>
   ),
-  Mark: ({ children }) => <Highlight>{children}</Highlight>,
   ol: ({ children }) => <ol className="list-decimal list">{children}</ol>,
   ul: ({ children }) => <ul className="list-disc list">{children}</ul>,
   a: ({ children, href }) => (
-    <a
-      href={href}
+    <Link
+      href={href!}
       className="text-blue-500 hover:underline underline-offset-4"
-      target="_blank"
-      rel="noopener noreferrer"
     >
       {children}
-    </a>
+    </Link>
   ),
   img: ({ src, alt = "Image" }) => {
     if (!src) return null;
     return <Image src={src} alt={alt} width={750} height={430} />;
+  },
+  Exlink: ({ children, href }) => {
+    return (
+      <Link
+        href={href!}
+        target="_blank"
+        className="relative items-center gap-1 text-blue-500 text-lg hover:underline underline-offset-4"
+      >
+        {children}{" "}
+        <ExternalLink
+          size={12}
+          className="text-current align-top inline-block ml-[-2px]"
+        />
+      </Link>
+    );
   },
 };
 
