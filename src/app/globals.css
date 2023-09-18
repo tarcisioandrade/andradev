@@ -10,14 +10,24 @@ html {
   @apply scroll-smooth;
 }
 
-body {
-  @apply bg-white text-black;
+:root {
+  --background: 0 0% 100%;
+  --foreground: 240 10% 3.9%;
 }
 
-@media (prefers-color-scheme: dark) {
-  body {
-    @apply bg-background text-white;
-  }
+[class="dark"] {
+  --background: 212, 32%, 8%, 1;
+  --foreground: 0 0% 98%;
+}
+
+body {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  transition: color 350ms ease 0s, background 350ms ease 0s;
+}
+
+.container {
+  @apply px-4 max-w-[1152px] mx-auto;
 }
 
 .post-paragraph,
@@ -53,4 +63,8 @@ body {
 
 .list {
   @apply pl-8 mb-9 [&>li]:mb-4 [&>li]:pl-2 text-lg tracking-wide;
+}
+
+mark {
+  @apply dark:bg-slate-800 bg-gray-200 text-black  dark:text-white rounded py-[4.5px] px-[6px];
 }
