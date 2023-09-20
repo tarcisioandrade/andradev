@@ -26,8 +26,8 @@ const MenuToc = ({ toc }: Props) => {
       return null;
     });
 
-    // 180 = 70height HEADER + 80 Scroll margin top + paddings
-    const scrollPosition = window.scrollY + 200;
+    // 240 = 70height HEADER + 80 Scroll margin top + (24h + 16padding) data do post + paddings
+    const scrollPosition = window.scrollY + 240;
 
     for (let i = headingOffsets.length - 1; i >= 0; i--) {
       if (!headingOffsets[i]) break;

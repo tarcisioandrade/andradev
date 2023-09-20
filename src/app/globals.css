@@ -6,10 +6,6 @@
   @apply antialiased;
 }
 
-html {
-  @apply scroll-smooth;
-}
-
 :root {
   --background: 0 0% 100%;
   --foreground: 240 10% 3.9%;
@@ -23,7 +19,6 @@ html {
 body {
   background-color: hsl(var(--background));
   color: hsl(var(--foreground));
-  transition: color 350ms ease 0s, background 350ms ease 0s;
 }
 
 .container {
@@ -65,6 +60,16 @@ body {
   @apply pl-8 mb-9 [&>li]:mb-4 [&>li]:pl-2 text-lg tracking-wide;
 }
 
-mark {
-  @apply dark:bg-slate-800 bg-gray-200 text-black  dark:text-white rounded py-[4.5px] px-[6px];
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+
+  mark {
+    @apply dark:bg-slate-800 bg-gray-200 text-black dark:text-white rounded py-[4.5px] px-[6px];
+  }
+
+  iframe {
+    @apply sm:w-full w-[calc(100%+16px*2)] h-[500px] border-none rounded overflow-hidden relative z-10 sm:m-0 m-[calc(16px*-1)];
+  }
 }

@@ -29,17 +29,17 @@ const Header = () => {
   return (
     <div
       className={cn(
-        "h-[70px] bg-sky-950",
+        "h-[70px] shadow-md",
         isBlogPage && "fixed right-0 left-0 z-50 bg-white dark:bg-background"
       )}
     >
       <header className="container flex items-center justify-between h-full">
-        <Link href="/" className="text-2xl text-white">
+        <Link href="/" className="text-2xl">
           Tarcisio Andrade
         </Link>
 
         <button
-          className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-slate-950 disabled:pointer-events-none disabled:opacity-50 dark:ring-offset-slate-950 dark:focus-visible:ring-slate-300 hover:bg-sky-900 text-white h-10 px-4 py-2 focus-visible:ring-0 focus-visible:ring-offset-0"
+          className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-white focus-visible:outline-none focus-visible:ring-slate-950 disabled:pointer-events-none disabled:opacity-50 dark:ring-offset-slate-950 dark:focus-visible:ring-slate-300 hover:bg-slate-100 dark:hover:bg-white/10 h-10 px-4 py-2 focus-visible:ring-0 focus-visible:ring-offset-0"
           onClick={handleTheme}
         >
           <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />

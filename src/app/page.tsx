@@ -1,6 +1,7 @@
 import { PostCard } from "@/components/post-card";
 import { allPosts } from "contentlayer/generated";
 import { compareDesc } from "date-fns";
+import Link from "next/link";
 
 const posts = allPosts
   .filter(({ isPublished }) => isPublished)
@@ -8,9 +9,12 @@ const posts = allPosts
     compareDesc(new Date(a.publishedAt), new Date(b.publishedAt))
   );
 
-const categories = Array.from(
-  new Set(allPosts.map(({ categories }) => categories))
-).flat();
+const allCategoriesPosts = allPosts.map(({ categories }) => categories);
+const uniqueCategories = new Set<string>();
+
+allCategoriesPosts.flat().map((cat) => uniqueCategories.add(cat));
+
+const categories = Array.from(uniqueCategories);
 
 export default async function Home() {
   return (
@@ -37,7 +41,7 @@ export default async function Home() {
                 className="bg-sky-700 rounded-lg p-2 text-white cursor-pointer hover:bg-sky-800 transition-colors capitalize"
                 key={c}
               >
-                {c}
+                <Link href={`/category/${c.toLowerCase()}`}>{c}</Link>
               </li>
             ))}
           </ul>
