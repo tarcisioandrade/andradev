@@ -57,10 +57,9 @@ const mdxComponents: MDXComponents = {
       {children}
     </Link>
   ),
-  img: ({ src, alt = "Image" }) => {
-    if (!src) return null;
-    return <Image src={src} alt={alt} width={750} height={430} />;
-  },
+  img: ({ src, alt = "Image" }) => (
+    <Image src={src!} alt={alt} width={750} height={430} />
+  ),
   Exlink: ({ children, href }) => {
     return (
       <Link
@@ -68,7 +67,7 @@ const mdxComponents: MDXComponents = {
         target="_blank"
         className="relative items-center gap-1 text-blue-500 text-lg hover:underline underline-offset-4"
       >
-        {children}{" "}
+        {children}
         <ExternalLink
           size={12}
           className="text-current align-top inline-block ml-[-2px]"
@@ -76,6 +75,11 @@ const mdxComponents: MDXComponents = {
       </Link>
     );
   },
+  video: (props) => (
+    <div className="mt-9 mx-auto mb-16">
+      <video autoPlay loop playsInline {...props} suppressHydrationWarning />
+    </div>
+  ),
 };
 
 const MDXRender = ({ code }: Props) => {

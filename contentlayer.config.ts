@@ -1,11 +1,8 @@
-import {
-  defineDocumentType,
-  defineNestedType,
-  makeSource,
-} from "contentlayer/source-files";
-import readingTime, { ReadTimeResults } from "reading-time";
+import { defineDocumentType, makeSource } from "contentlayer/source-files";
+import readingTime from "reading-time";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeSlug from "rehype-slug";
+import rehypeVideo from "rehype-video";
 import remarkGfm from "remark-gfm";
 import GithubSlugger from "github-slugger";
 
@@ -77,6 +74,7 @@ export default makeSource({
     remarkPlugins: [remarkGfm],
     rehypePlugins: [
       rehypeSlug,
+      [rehypeVideo, { details: false }],
       [rehypeAutolinkHeadings, { behavior: "prepend" }],
     ],
   },

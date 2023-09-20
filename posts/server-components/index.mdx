@@ -3,10 +3,12 @@ title: Making Sense of React Server Components
 publishedAt: 2023-07-01
 description: "This year, the React team unveiled something they've been quietly researching for years: an official way to run React components exclusively on the server. This is a significant paradigm shift, and it's caused a whole lot of confusion in the React community. In this tutorial, we'll explore this new world, and build an intuition for how it works, and how we can take advantage of it."
 categories:
-  - next.js
+  - nextjs
   - typescript
-  - RSC
   - perfomance
+  - nodejs
+  - react native
+  - test
 isPublished: true
 ---
 
@@ -49,9 +51,9 @@ When I first started using React in 2015, most React setups used a “client-sid
 </html>
 ```
 
-That <Mark>bundle.js</Mark> script includes everything we need to mount and run the application, including React, other third-party dependencies, and all of the code we've written.
+That <mark>bundle.js</mark> script includes everything we need to mount and run the application, including React, other third-party dependencies, and all of the code we've written.
 
-Once the JS has been downloaded and parsed, React springs into action, conjuring all of the DOM nodes for our entire application, and housing it in that empty <Mark>\<div id="root"></Mark>.
+Once the JS has been downloaded and parsed, React springs into action, conjuring all of the DOM nodes for our entire application, and housing it in that empty <mark>\<div id="root"></mark>.
 
 The problem with this approach is that it takes time to do all of that work. And while it's all happening, the user is staring at a blank white screen. This problem tends to get worse over time: every new feature we ship adds more kilobytes to our JavaScript bundle, prolonging the amount of time that the user has to sit and wait.
 
@@ -59,7 +61,7 @@ The problem with this approach is that it takes time to do all of that work. And
 
 Server Side Rendering was designed to improve this experience. Instead of sending an empty HTML file, the server will render our application to generate the actual HTML. The user receives a fully-formed HTML document.
 
-That HTML file will still include the <Mark>\<script></Mark> tag, since we still need React to run on the client, to handle any interactivity. But we configure React to work a little bit differently in-browser: instead of conjuring all of the DOM nodes from scratch, it instead adopts the existing HTML. This process is known as hydration.
+That HTML file will still include the <mark>\<script></mark> tag, since we still need React to run on the client, to handle any interactivity. But we configure React to work a little bit differently in-browser: instead of conjuring all of the DOM nodes from scratch, it instead adopts the existing HTML. This process is known as hydration.
 
 I like the way React core team member Dan Abramov explains this:
 
@@ -115,3 +117,11 @@ The Joy of React is a beginner-friendly interactive course, designed to help you
 This course has been my full-time focus for almost two years now, and it includes all of the most important stuff I've learned about React in over 8 years of experience.
 
 There's so much good stuff I'd love to tell you about. In addition to React itself, and all the bleeding-edge stuff we've alluded to in this blog post, you'll learn about my favourite parts of the React ecosystem. For example, you'll learn how to do next-level layout animations like this, using Framer ==Motion==:
+
+https://res.cloudinary.com/drdzrfm15/video/upload/v1695135961/andradev/server-components/ubereats-loading_rw4xdz.mp4
+
+<iframe
+  src="https://codesandbox.io/embed/sandpack-project-yw1065?fontsize=14&hidenavigation=1&theme=dark"
+  title="sandpack-project"
+  sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+></iframe>
