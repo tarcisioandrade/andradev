@@ -4,7 +4,7 @@ import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeSlug from "rehype-slug";
 import rehypeVideo from "rehype-video";
 import remarkGfm from "remark-gfm";
-import { slugger } from "@/utils/slugger";
+import { slugger } from "./src/utils/slugger";
 
 export const Post = defineDocumentType(() => ({
   name: "Post",
