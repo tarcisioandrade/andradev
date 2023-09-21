@@ -34,7 +34,7 @@ const mdxComponents: MDXComponents = {
   h1: ({ children, id }) => (
     <h2
       id={id}
-      className="mt-[96px] mb-[32px] font-bold text-3xl text-sky-700 dark:text-teal-500 scroll-mt-20"
+      className="mt-[96px] mb-[32px] font-bold text-3xl text-blue-500 dark:text-amber-500 scroll-mt-20"
     >
       {children}
     </h2>

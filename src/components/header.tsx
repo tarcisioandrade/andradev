@@ -11,7 +11,7 @@ const Header = () => {
   const { setTheme, theme } = useTheme();
   const pathname = usePathname();
 
-  const isBlogPage = pathname !== "/";
+  const isBlogPage = pathname !== "/" && !pathname.includes("category");
 
   // O suporte para darkmode com html.class não estava funcionando na lib usada pra o code syntax highligh (Bright), por esse motivo usei o  atributo "data-theme" no htmlElement. https://bright.codehike.org/
   const handleTheme = () => {
@@ -29,7 +29,7 @@ const Header = () => {
   return (
     <div
       className={cn(
-        "h-[70px] shadow-md",
+        "h-[70px] shadow-md shadow-slate-100 dark:shadow-black/10",
         isBlogPage && "fixed right-0 left-0 z-50 bg-white dark:bg-background"
       )}
     >

@@ -4,7 +4,7 @@ import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeSlug from "rehype-slug";
 import rehypeVideo from "rehype-video";
 import remarkGfm from "remark-gfm";
-import GithubSlugger from "github-slugger";
+import { slugger } from "@/utils/slugger";
 
 export const Post = defineDocumentType(() => ({
   name: "Post",
@@ -46,7 +46,7 @@ export const Post = defineDocumentType(() => ({
       type: "json",
       resolve: async (doc) => {
         const regulrExp = /\n(?<flag>#{1,6})\s+(?<content>.+)/g;
-        const slugger = new GithubSlugger();
+
         const headings = Array.from(doc.body.raw.matchAll(regulrExp)).map(
           ({ groups }) => {
             const flag = groups?.flag;
@@ -56,7 +56,7 @@ export const Post = defineDocumentType(() => ({
               level:
                 flag?.length == 1 ? "one" : flag?.length == 2 ? "two" : "three",
               text: content,
-              slug: content ? slugger.slug(content) : undefined,
+              slug: content ? slugger(content) : undefined,
             };
           }
         );

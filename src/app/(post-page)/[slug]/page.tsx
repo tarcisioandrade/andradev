@@ -7,6 +7,8 @@ import MenuToc from "@/components/menu-toc";
 import { Metadata } from "next";
 import { Timer, Tags } from "lucide-react";
 import { Post } from "@/types/post";
+import Link from "next/link";
+import { slugger } from "@/utils/slugger";
 
 export const generateStaticParams = async () =>
   allPosts.map((post) => ({ slug: post._raw.flattenedPath }));
@@ -39,7 +41,7 @@ const PostLayout = ({ params }: { params: { slug: string } }) => {
     .concat(" minutos de leitura");
 
   return (
-    <main className="mx-auto max-w-[680px] xl:max-w-6xl px-4 py-48 xl:grid xl:grid-cols-[minmax(400px,_680px)_1fr] xl:gap-20">
+    <main className="mx-auto container px-4 py-32 xl:py-48 xl:grid xl:grid-cols-[minmax(400px,_680px)_1fr] xl:gap-20">
       <div>
         <div className="mb-8">
           <time
@@ -56,16 +58,29 @@ const PostLayout = ({ params }: { params: { slug: string } }) => {
           >
             {post.title}
           </h1>
-          <div className="flex flex-col md:flex-row gap-4 mt-4 text-sm text-gray-500 dark:text-gray-400 w-fit rounded">
-            <span className="flex gap-2">
-              <Timer size={20} className="text-sky-500 dark:text-teal-500" />
+          <ul className="flex flex-col md:flex-row gap-4 xl:gap-8 mt-4 text-sm text-gray-500 dark:text-gray-400 w-fit rounded">
+            <li className="flex gap-1">
+              <Timer size={20} className="text-blue-500 dark:text-amber-500" />
               <time>{readTimeTranslate}</time>
-            </span>
-            <span className="flex gap-2">
-              <Tags size={20} className="text-sky-500 dark:text-teal-500" />
-              <div>{post.categories.join(", ")}</div>
-            </span>
-          </div>
+            </li>
+            <li className="flex gap-1">
+              <Tags size={20} className="text-blue-500 dark:text-amber-500" />
+              <div>
+                {post.categories.map((categ, i) => (
+                  <>
+                    <Link
+                      className="capitalize text-blue-500 hover:underline underline-offset-4"
+                      key={categ}
+                      href={`/category/${slugger(categ)}`}
+                    >
+                      {categ}
+                    </Link>
+                    {i < post.categories.length - 1 && ", "}
+                  </>
+                ))}
+              </div>
+            </li>
+          </ul>
         </div>
         <article>
           <MDXRender code={post.body.code} />

@@ -1,4 +1,5 @@
 import { PostCard } from "@/components/post-card";
+import { slugger } from "@/utils/slugger";
 import { allPosts } from "contentlayer/generated";
 import { compareDesc } from "date-fns";
 import Link from "next/link";
@@ -21,7 +22,7 @@ export default async function Home() {
     <main className="py-24 container min-h-[calc(100vh-80px-206px)]">
       <div className="lg:grid lg:grid-cols-[minmax(400px,_630px)_1fr] lg:gap-20">
         <div>
-          <p className="uppercase tracking-wider text-lg text-amber-500 font-bold mb-8">
+          <p className="uppercase tracking-wider text-lg text-blue-500 dark:text-amber-500 font-bold mb-8">
             Publicado Recentemente
           </p>
           <div className="flex flex-col gap-12">
@@ -31,17 +32,17 @@ export default async function Home() {
           </div>
         </div>
 
-        <div className=" mt-16 lg:mt-0">
-          <p className="uppercase tracking-wider text-lg text-amber-500 font-bold">
+        <div className="mt-16 lg:mt-0">
+          <p className="uppercase tracking-wider text-lg text-blue-500 dark:text-amber-500 font-bold">
             Categorias
           </p>
           <ul className="flex flex-wrap gap-2 mt-8">
-            {categories.map((c) => (
+            {categories.map((categ) => (
               <li
-                className="bg-sky-700 rounded-lg p-2 text-white cursor-pointer hover:bg-sky-800 transition-colors capitalize"
-                key={c}
+                className="bg-blue-500 dark:bg-amber-500 text-white dark:text-background rounded-lg p-2 cursor-pointer hover:bg-blue-500/90 dark:hover:bg-amber-400 transition-colors capitalize"
+                key={categ}
               >
-                <Link href={`/category/${c.toLowerCase()}`}>{c}</Link>
+                <Link href={`/category/${slugger(categ)}`}>{categ}</Link>
               </li>
             ))}
           </ul>

@@ -22,7 +22,7 @@ body {
 }
 
 .container {
-  @apply px-4 max-w-[1152px] mx-auto;
+  @apply px-4 max-w-[1100px] mx-auto;
 }
 
 .post-paragraph,

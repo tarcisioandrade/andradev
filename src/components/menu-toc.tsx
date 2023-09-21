@@ -63,7 +63,7 @@ const MenuToc = ({ toc }: Props) => {
               className={cn(
                 "flex items-center justify-start text-gray-500 font-medium hover:text-gray-600 dark:hover:text-white transition-colors",
                 activeHeading === "introduction" &&
-                  "dark:text-teal-500 text-sky-700"
+                  "dark:text-amber-500 text-blue-500"
               )}
             >
               Introdução
@@ -79,7 +79,7 @@ const MenuToc = ({ toc }: Props) => {
                   data-level={level}
                   className={cn(
                     "data-[level=two]:pl-2 data-[level=three]:pl-4 sm:data-[level=three]:pl-6 flex items-center justify-start text-gray-500 font-medium hover:text-gray-600 dark:hover:text-white transition-colors",
-                    isActive && "dark:text-teal-500 text-sky-700"
+                    isActive && "dark:text-amber-500 text-blue-500"
                   )}
                 >
                   {level === "three" ? (
