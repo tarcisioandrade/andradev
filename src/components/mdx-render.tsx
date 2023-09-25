@@ -35,7 +35,7 @@ const mdxComponents: MDXComponents = {
   h1: ({ children, id }) => (
     <h2
       id={id}
-      className="group mt-[96px] mb-[32px] font-bold text-3xl text-blue-500 dark:text-amber-500 scroll-mt-12 xl:scroll-mt-20"
+      className="group mt-[96px] mb-[32px] font-bold text-3xl text-blue-600 dark:text-amber-500 scroll-mt-12 xl:scroll-mt-20"
     >
       {children}
     </h2>
@@ -51,12 +51,12 @@ const mdxComponents: MDXComponents = {
   ol: ({ children }) => <ol className="list-decimal list">{children}</ol>,
   ul: ({ children }) => <ul className="list-disc list">{children}</ul>,
   a: ({ children, href }) => (
-    <Link
+    <a
       href={href!}
       className="text-blue-500 hover:underline underline-offset-4"
     >
       {children}
-    </Link>
+    </a>
   ),
   img: ({ src, alt = "Image" }) => (
     <Image src={src!} alt={alt} width={750} height={430} />
@@ -67,6 +67,7 @@ const mdxComponents: MDXComponents = {
         href={href!}
         target="_blank"
         className="relative items-center gap-1 text-blue-500 text-lg hover:underline underline-offset-4"
+        rel="noopener noreferrer"
       >
         {children}
         <ExternalLink
@@ -85,6 +86,7 @@ const mdxComponents: MDXComponents = {
     <span
       className={cn(className, "hidden w-6 h-6 group-hover:inline-block ml-2")}
     >
+      <span className="sr-only">Heading Link</span>
       <LinkIcon className="text-blue-500 dark:text-amber-500" />
     </span>
   ),
