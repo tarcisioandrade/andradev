@@ -9,6 +9,9 @@ const Footer = () => {
           <Link href="/" className="text-2xl">
             Tarcisio Andrade
           </Link>
+          <span className="hidden sm:block text-gray-600 dark:text-gray-400 tracking-tight">
+            © 2023, Tarcisio Andrade
+          </span>
         </div>
         <div className="flex flex-col gap-4">
           <span className="text-gray-600 dark:text-gray-400 tracking-tight">
@@ -43,6 +46,9 @@ const Footer = () => {
             </li>
           </ul>
         </div>
+        <span className="sm:hidden text-gray-600 dark:text-gray-400 tracking-tight">
+          © 2023, Tarcisio Andrade
+        </span>
       </footer>
     </div>
   );

@@ -44,9 +44,9 @@ const Page = ({ params }: Props) => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 xl:ml-[-24px]">
-        {posts.map((post, idx) => (
+        {posts.map((post, i) => (
           <div
-            key={idx}
+            key={`${post}-${i}`}
             className="bg-slate-50 dark:bg-gray-800 rounded-lg p-6"
           >
             <PostCard {...post} />

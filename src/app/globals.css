@@ -67,7 +67,7 @@ body {
 }
 
 .list li::marker {
-  @apply text-blue-500 dark:text-amber-500;
+  @apply text-blue-600 dark:text-amber-500;
 }
 
 .list {

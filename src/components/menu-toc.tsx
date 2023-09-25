@@ -67,9 +67,9 @@ const MenuToc = ({ toc }: Props) => {
               href={`#introduction`}
               data-level="one"
               className={cn(
-                "flex items-center justify-start text-gray-500 font-medium hover:text-blue-500 dark:hover:text-amber-500 transition-colors",
+                "flex items-center justify-start text-gray-500 font-medium hover:text-blue-600 dark:hover:text-amber-500 transition-colors",
                 activeHeading === "introduction" &&
-                  "dark:text-amber-500 text-blue-500"
+                  "dark:text-amber-500 text-blue-600"
               )}
             >
               Introdução
@@ -84,8 +84,8 @@ const MenuToc = ({ toc }: Props) => {
                   href={`#${slug}`}
                   data-level={level}
                   className={cn(
-                    "data-[level=two]:pl-2 data-[level=three]:pl-4 sm:data-[level=three]:pl-6 flex items-center justify-start text-gray-500 font-medium hover:text-blue-500 dark:hover:text-amber-500 transition-colors",
-                    isActive && "dark:text-amber-500 text-blue-500"
+                    "data-[level=two]:pl-2 data-[level=three]:pl-4 sm:data-[level=three]:pl-6 flex items-center justify-start text-gray-500 font-medium hover:text-blue-600 dark:hover:text-amber-500 transition-colors",
+                    isActive && "dark:text-amber-500 text-blue-600"
                   )}
                 >
                   {level === "three" ? (
