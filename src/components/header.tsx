@@ -4,8 +4,8 @@ import { cn } from "@/utils/cn";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import Link from "next/link";
-import React, { useEffect } from "react";
 import { usePathname } from "next/navigation";
+import React from "react";
 
 const Header = () => {
   const { setTheme, theme } = useTheme();
@@ -13,27 +13,19 @@ const Header = () => {
 
   const isBlogPage = pathname !== "/" && !pathname.includes("category");
 
-  // O suporte para darkmode com html.class não estava funcionando na lib usada pra o code syntax highligh (Bright), por esse motivo usei o  atributo "data-theme" no htmlElement. https://bright.codehike.org/
   const handleTheme = () => {
     const newTheme = theme === "dark" ? "light" : "dark";
     setTheme(newTheme);
-    document.documentElement.setAttribute("data-theme", newTheme);
   };
-
-  useEffect(() => {
-    if (theme) {
-      document.documentElement.setAttribute("data-theme", theme);
-    }
-  }, [theme]);
 
   return (
     <div
       className={cn(
-        "h-[70px] shadow-md shadow-slate-100 dark:shadow-black/10",
-        isBlogPage && "fixed right-0 left-0 z-50 bg-white dark:bg-background"
+        "h-[70px] bg-white dark:bg-background shadow-md shadow-slate-100 dark:shadow-black/10",
+        isBlogPage && "xl:fixed xl:right-0 xl:left-0 xl:z-50"
       )}
     >
-      <header className="container flex items-center justify-between h-full">
+      <header className="main-container flex items-center justify-between h-full">
         <Link href="/" className="text-2xl">
           Tarcisio Andrade
         </Link>

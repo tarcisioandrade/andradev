@@ -10,6 +10,7 @@ type Props = {
 BrightCode.theme = {
   dark: "material-palenight",
   light: "material-lighter",
+  lightSelector: "html.light",
 };
 
 const Code = ({ code, language, filename }: Props) => {
