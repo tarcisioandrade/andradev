@@ -19,7 +19,7 @@ const categories = Array.from(uniqueCategories);
 
 export default async function Home() {
   return (
-    <main className="py-24 container min-h-[calc(100vh-80px-206px)]">
+    <main className="py-24 main-container min-h-[calc(100vh-70px-200px+6px)]">
       <div className="lg:grid lg:grid-cols-[minmax(400px,_630px)_1fr] lg:gap-20">
         <div>
           <p className="uppercase tracking-wider text-lg text-blue-500 dark:text-amber-500 font-bold mb-8">
@@ -32,7 +32,7 @@ export default async function Home() {
           </div>
         </div>
 
-        <div className="mt-16 lg:mt-0">
+        <aside className="mt-16 lg:mt-0">
           <p className="uppercase tracking-wider text-lg text-blue-500 dark:text-amber-500 font-bold">
             Categorias
           </p>
@@ -46,7 +46,7 @@ export default async function Home() {
               </li>
             ))}
           </ul>
-        </div>
+        </aside>
       </div>
     </main>
   );

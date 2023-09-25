@@ -75,7 +75,7 @@ export default makeSource({
     rehypePlugins: [
       rehypeSlug,
       [rehypeVideo, { details: false }],
-      [rehypeAutolinkHeadings, { behavior: "prepend" }],
+      [rehypeAutolinkHeadings, { behavior: "append" }],
     ],
   },
 });

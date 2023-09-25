@@ -5,7 +5,8 @@ import Code from "./ui-post/code";
 import { MDXComponents } from "mdx/types";
 import Image from "next/image";
 import Link from "next/link";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, Link as LinkIcon } from "lucide-react";
+import { cn } from "@/utils/cn";
 
 type Props = {
   code: string;
@@ -27,14 +28,14 @@ const mdxComponents: MDXComponents = {
     );
   },
   blockquote: ({ children }) => (
-    <blockquote className="text-slate-500 my-12 px-8 post-blockquote relative w-fit">
+    <blockquote className="border-l-4 border-l-slate-500 px-4 my-12 text-slate-500">
       {children}
     </blockquote>
   ),
   h1: ({ children, id }) => (
     <h2
       id={id}
-      className="mt-[96px] mb-[32px] font-bold text-3xl text-blue-500 dark:text-amber-500 scroll-mt-20"
+      className="group mt-[96px] mb-[32px] font-bold text-3xl text-blue-500 dark:text-amber-500 scroll-mt-12 xl:scroll-mt-20"
     >
       {children}
     </h2>
@@ -42,7 +43,7 @@ const mdxComponents: MDXComponents = {
   h2: ({ children, id }) => (
     <h3
       id={id}
-      className="mt-[64px] mb-[12px] font-bold text-2xl text-gray-800 dark:text-gray-200 scroll-mt-20"
+      className="group mt-[64px] mb-[12px] font-bold text-2xl text-gray-800 dark:text-gray-200 scroll-mt-12 xl:scroll-mt-20"
     >
       {children}
     </h3>
@@ -79,6 +80,13 @@ const mdxComponents: MDXComponents = {
     <div className="mt-9 mx-auto mb-16">
       <video autoPlay loop playsInline {...props} suppressHydrationWarning />
     </div>
+  ),
+  span: ({ className }) => (
+    <span
+      className={cn(className, "hidden w-6 h-6 group-hover:inline-block ml-2")}
+    >
+      <LinkIcon className="text-blue-500 dark:text-amber-500" />
+    </span>
   ),
 };
 
