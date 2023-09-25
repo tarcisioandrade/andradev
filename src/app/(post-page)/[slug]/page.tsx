@@ -26,7 +26,12 @@ export const generateMetadata = ({
     title: post.title,
     description: post.description,
     twitter: { title: post.title, description: post.description },
-    creator: "Tarcisio Andrade",
+    openGraph: {
+      title: post.title,
+      description: post.description,
+      type: "article",
+      publishedTime: post.publishedAt,
+    },
   };
 };
 
@@ -42,7 +47,7 @@ const PostLayout = ({ params }: { params: { slug: string } }) => {
     .concat(" minutos de leitura");
 
   return (
-    <main className="mx-auto main-container px-4 py-32 xl:grid xl:grid-cols-[minmax(400px,_680px)_1fr] xl:gap-20">
+    <main className="mx-auto main-container px-4 py-24 xl:py-36 xl:grid xl:grid-cols-[minmax(400px,_680px)_1fr] xl:gap-20">
       <div>
         <div className="mb-8">
           <time
@@ -72,16 +77,15 @@ const PostLayout = ({ params }: { params: { slug: string } }) => {
               <Tags size={20} className="text-blue-500 dark:text-amber-500" />
               <div>
                 {post.categories.map((categ, i) => (
-                  <>
+                  <span key={`${categ}-${i}`}>
                     <Link
                       className="capitalize text-blue-500 hover:underline underline-offset-4"
-                      key={categ}
                       href={`/category/${slugger(categ)}`}
                     >
                       {categ}
                     </Link>
                     {i < post.categories.length - 1 && ", "}
-                  </>
+                  </span>
                 ))}
               </div>
             </li>
