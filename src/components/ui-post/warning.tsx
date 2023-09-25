@@ -7,11 +7,7 @@ type Props = {
 
 const Warning = ({ children }: Props) => {
   return (
-    <div className="relative rounded mt-12 mb-16 py-6 px-2 xl:px-8 xl:ml-[-32px] border-l-4 border-l-teal-500 bg-blue-50 dark:bg-slate-800 [&>*:last-child]:mb-0">
-      <AlertCircle
-        fontSize={32}
-        className="hidden xl:block absolute left-0 top-0 translate-y-[-50%] translate-x-[-50%] bg-white dark:bg-background rounded-full w-[48px] h-[48px] text-teal-500"
-      />
+    <div className="relative rounded-lg mt-12 mb-16 py-6 px-4 xl:px-8 ml-[-16px] xl:ml-[-32px] mr-[-16px] xl:mr-0 border-l-4 border-l-blue-600 bg-slate-100 dark:bg-gray-800 [&>*:last-child]:mb-0">
       {children}
     </div>
   );

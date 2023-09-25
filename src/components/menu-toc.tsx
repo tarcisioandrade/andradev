@@ -3,6 +3,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { cn } from "@/utils/cn";
 import { Toc } from "@/types/toc";
+import useThrottledFunction from "@/hooks/useThrottledFunction";
 
 type Props = {
   toc: Toc[];
@@ -40,14 +41,19 @@ const MenuToc = ({ toc }: Props) => {
     }
   }, []);
 
+  const { throttledFn: handleScrollThrottled } = useThrottledFunction({
+    callbackFn: handleScroll,
+    throttleMs: 100,
+  });
+
   useEffect(() => {
     handleScroll();
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScrollThrottled);
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("scroll", handleScrollThrottled);
     };
-  }, [handleScroll]);
+  }, [handleScroll, handleScrollThrottled]);
 
   return (
     <aside className="hidden xl:block text-dark dark:text-light rounded-lg sticky top-1 max-h-[80vh] overflow-hidden overflow-y-auto">
@@ -61,7 +67,7 @@ const MenuToc = ({ toc }: Props) => {
               href={`#introduction`}
               data-level="one"
               className={cn(
-                "flex items-center justify-start text-gray-500 font-medium hover:text-gray-600 dark:hover:text-white transition-colors",
+                "flex items-center justify-start text-gray-500 font-medium hover:text-blue-500 dark:hover:text-amber-500 transition-colors",
                 activeHeading === "introduction" &&
                   "dark:text-amber-500 text-blue-500"
               )}
@@ -78,7 +84,7 @@ const MenuToc = ({ toc }: Props) => {
                   href={`#${slug}`}
                   data-level={level}
                   className={cn(
-                    "data-[level=two]:pl-2 data-[level=three]:pl-4 sm:data-[level=three]:pl-6 flex items-center justify-start text-gray-500 font-medium hover:text-gray-600 dark:hover:text-white transition-colors",
+                    "data-[level=two]:pl-2 data-[level=three]:pl-4 sm:data-[level=three]:pl-6 flex items-center justify-start text-gray-500 font-medium hover:text-blue-500 dark:hover:text-amber-500 transition-colors",
                     isActive && "dark:text-amber-500 text-blue-500"
                   )}
                 >
