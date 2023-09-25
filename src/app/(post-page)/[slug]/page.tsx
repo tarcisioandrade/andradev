@@ -9,6 +9,7 @@ import { Timer, Tags } from "lucide-react";
 import { Post } from "@/types/post";
 import Link from "next/link";
 import { slugger } from "@/utils/slugger";
+import ButtonScrollTop from "@/components/button-scroll-top";
 
 export const generateStaticParams = async () =>
   allPosts.map((post) => ({ slug: post._raw.flattenedPath }));
@@ -41,16 +42,20 @@ const PostLayout = ({ params }: { params: { slug: string } }) => {
     .concat(" minutos de leitura");
 
   return (
-    <main className="mx-auto container px-4 py-32 xl:py-48 xl:grid xl:grid-cols-[minmax(400px,_680px)_1fr] xl:gap-20">
+    <main className="mx-auto main-container px-4 py-32 xl:grid xl:grid-cols-[minmax(400px,_680px)_1fr] xl:gap-20">
       <div>
         <div className="mb-8">
           <time
             dateTime={post.publishedAt}
             className="text-base text-gray-500 mb-4 block"
           >
-            {format(parseISO(post.publishedAt), "d/MMM/yyy", {
-              locale: ptBR,
-            })}
+            {format(
+              parseISO(post.publishedAt),
+              "EEEE, dd 'de' LLLL 'de' yyyy",
+              {
+                locale: ptBR,
+              }
+            )}
           </time>
           <h1
             id="introduction"
@@ -87,6 +92,8 @@ const PostLayout = ({ params }: { params: { slug: string } }) => {
         </article>
       </div>
       <MenuToc toc={post.toc} />
+
+      <ButtonScrollTop />
     </main>
   );
 };
