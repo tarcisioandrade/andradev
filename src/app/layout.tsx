@@ -8,12 +8,9 @@ import { ThemeProvider } from "@/components/theme-provider";
 const outfit = Outfit({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.URL as string),
+  metadataBase: new URL(process.env.DOMAIN_URL as string),
   title: "Tarcisio Andrade Blog",
   description: "Artigos sobre react, typescript, testes e etc.",
-  alternates: {
-    canonical: process.env.URL,
-  },
   themeColor: [
     {
       media: "(prefers-color-scheme: light)",

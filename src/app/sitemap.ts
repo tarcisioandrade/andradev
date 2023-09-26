@@ -6,7 +6,7 @@ const generateCategorySiteMap = (): MetadataRoute.Sitemap => {
   const cateries = getUniqueCategories();
 
   return cateries.map((categ) => ({
-    url: `${String(process.env.URL)}/category/${slugger(categ)}`,
+    url: `${String(process.env.DOMAIN_URL)}/category/${slugger(categ)}`,
     lastModified: new Date(),
     changeFrequency: "monthly",
     priority: 0.8,
@@ -17,7 +17,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const categoryMap = generateCategorySiteMap();
   return [
     {
-      url: String(process.env.URL),
+      url: String(process.env.DOMAIN_URL),
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 1,
