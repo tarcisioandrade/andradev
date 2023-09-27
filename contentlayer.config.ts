@@ -1,49 +1,18 @@
+import { slugger } from "./src/utils/slugger";
 import { defineDocumentType, makeSource } from "contentlayer/source-files";
 import readingTime from "reading-time";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeSlug from "rehype-slug";
 import rehypeVideo from "rehype-video";
 import remarkGfm from "remark-gfm";
-import { slugger } from "./src/utils/slugger";
 
 export const Post = defineDocumentType(() => ({
-  name: "Post",
-  filePathPattern: `**/**/*.{md,mdx}`,
-  contentType: "mdx",
-  fields: {
-    title: { type: "string", required: true },
-    description: {
-      type: "string",
-      required: true,
-    },
-    publishedAt: {
-      type: "date",
-      required: true,
-    },
-    updatedAt: {
-      type: "date",
-    },
-    categories: {
-      type: "list",
-      of: { type: "string" },
-      required: true,
-    },
-    isPublished: {
-      type: "boolean",
-      default: true,
-    },
-  },
   computedFields: {
-    url: {
-      type: "string",
-      resolve: (post) => `/${post._raw.flattenedPath}`,
-    },
     readingTime: {
-      type: "json",
       resolve: (doc) => readingTime(doc.body.raw),
+      type: "json",
     },
     toc: {
-      type: "json",
       resolve: async (doc) => {
         const regulrExp = /\n(?<flag>#{1,6})\s+(?<content>.+)/g;
 
@@ -55,27 +24,62 @@ export const Post = defineDocumentType(() => ({
             return {
               level:
                 flag?.length == 1 ? "one" : flag?.length == 2 ? "two" : "three",
-              text: content,
               slug: content ? slugger(content) : undefined,
+              text: content,
             };
-          }
+          },
         );
 
         return headings;
       },
+      type: "json",
+    },
+    url: {
+      resolve: (post) => `/${post._raw.flattenedPath}`,
+      type: "string",
     },
   },
+  contentType: "mdx",
+  fields: {
+    categories: {
+      of: { type: "string" },
+      required: true,
+      type: "list",
+    },
+    description: {
+      required: true,
+      type: "string",
+    },
+    image: {
+      required: true,
+      type: "image",
+    },
+    isPublished: {
+      default: true,
+      type: "boolean",
+    },
+    publishedAt: {
+      required: true,
+      type: "date",
+    },
+    title: { required: true, type: "string" },
+    updatedAt: {
+      type: "date",
+    },
+  },
+  filePathPattern: `**/**/*.{md,mdx}`,
+  name: "Post",
 }));
 
 export default makeSource({
   contentDirPath: "posts",
   documentTypes: [Post],
   mdx: {
-    remarkPlugins: [remarkGfm],
     rehypePlugins: [
       rehypeSlug,
       [rehypeVideo, { details: false }],
       [rehypeAutolinkHeadings, { behavior: "append" }],
     ],
+    remarkPlugins: [remarkGfm],
   },
 });
