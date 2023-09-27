@@ -10,7 +10,7 @@ const getRemainingTime = (lastTriggeredTime: number, throttleMs: number) => {
 };
 
 export type useThrottledFunctionProps = {
-  callbackFn: <T>(args?: T) => any;
+  callbackFn: <T>(args?: T) => void;
   throttleMs?: number;
 };
 
