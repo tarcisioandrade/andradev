@@ -3,8 +3,8 @@ import { Code as BrightCode } from "bright";
 
 type Props = {
   code: string;
-  language?: string;
   filename?: string;
+  language?: string;
 };
 
 BrightCode.theme = {
@@ -13,14 +13,14 @@ BrightCode.theme = {
   lightSelector: "html.light",
 };
 
-const Code = ({ code, language, filename }: Props) => {
+const Code = ({ code, filename, language }: Props) => {
   return (
     <BrightCode
+      className="xl:!ml-[-32px] [&>pre]:xl:!px-4"
       code={code}
-      title={filename}
       lang={language}
       style={{ margin: "48px 0 80px 0" }}
-      className="[&>pre]:xl:!px-4 xl:!ml-[-32px]"
+      title={filename}
     />
   );
 };

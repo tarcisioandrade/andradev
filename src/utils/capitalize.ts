@@ -3,7 +3,9 @@ export const capitalize = (text: string) => {
     return text;
   }
 
-  if (text.length === 3) return text.toUpperCase();
+  if (text.length === 3) {
+    return text.toUpperCase();
+  }
 
   const words = text.split(" ");
   const capitalizedWords = words.map((word) => {

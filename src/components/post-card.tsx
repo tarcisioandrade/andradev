@@ -9,10 +9,10 @@ export function PostCard(post: Post) {
           {post.title}
         </h2>
       </Link>
-      <p className="text-base tracking-wide leading-relaxed dark:text-gray-200">
+      <p className="text-base leading-relaxed tracking-wide dark:text-gray-200">
         {post.description}
       </p>
-      <Link href={post.url} className="block mt-4 font-semibold">
+      <Link className="mt-4 block font-semibold" href={post.url}>
         Ler Mais
       </Link>
     </article>

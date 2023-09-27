@@ -1,19 +1,19 @@
 "use client";
 
+import React, { useCallback, useEffect, useState } from "react";
 import useThrottledFunction from "@/hooks/useThrottledFunction";
 import { cn } from "@/utils/cn";
 import { ChevronUp } from "lucide-react";
-import React, { useCallback, useEffect, useState } from "react";
+
+const goScrollToTop = () => {
+  window.scrollTo({
+    behavior: "smooth",
+    top: 0,
+  });
+};
 
 const ButtonScrollTop = () => {
   const [showButton, setShowButton] = useState(false);
-
-  const goScrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
 
   const handleShowButton = useCallback(() => {
     const windowHeight = window.innerHeight;
@@ -53,8 +53,8 @@ const ButtonScrollTop = () => {
   return (
     <div
       className={cn(
-        "hidden bg-slate-200 dark:bg-gray-900 rounded-xl fixed right-4 bottom-4 p-2 text-blue-500 dark:text-amber-500",
-        showButton && "block"
+        "fixed bottom-4 right-4 hidden rounded-xl bg-slate-200 p-2 text-blue-500 dark:bg-gray-900 dark:text-amber-500",
+        showButton && "block",
       )}
       onClick={goScrollToTop}
     >

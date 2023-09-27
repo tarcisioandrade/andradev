@@ -1,6 +1,6 @@
 export type ReadingTime = {
-  text: string;
   minutes: number;
+  text: string;
   time: number;
   words: number;
 };

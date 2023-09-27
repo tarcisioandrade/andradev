@@ -48,7 +48,7 @@ const useThrottledFunction = ({
         }, remainingTime);
       }
     },
-    [callbackFn, cancel, throttleMs]
+    [callbackFn, cancel, throttleMs],
   );
 
   useEffect(() => cancel, [cancel]);

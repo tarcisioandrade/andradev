@@ -1,20 +1,20 @@
-import Link from "next/link";
 import React from "react";
+import Link from "next/link";
 
 const Footer = () => {
   return (
-    <div className="bg-slate-100 dark:bg-gray-800 shadow-md sm:h-[200px] py-9">
-      <footer className="h-full main-container flex flex-col gap-12 sm:gap-0 sm:flex-row justify-around sm:justify-between">
+    <div className="bg-slate-100 py-9 shadow-md dark:bg-gray-800 sm:h-[200px]">
+      <footer className="main-container flex h-full flex-col justify-around gap-12 sm:flex-row sm:justify-between sm:gap-0">
         <div className="flex flex-col gap-4">
-          <Link href="/" className="text-2xl">
+          <Link className="text-2xl" href="/">
             Tarcisio Andrade
           </Link>
-          <span className="hidden sm:block text-gray-600 dark:text-gray-400 tracking-tight">
+          <span className="hidden tracking-tight text-gray-600 dark:text-gray-400 sm:block">
             © 2023, Tarcisio Andrade
           </span>
         </div>
         <div className="flex flex-col gap-4">
-          <span className="text-gray-600 dark:text-gray-400 tracking-tight">
+          <span className="tracking-tight text-gray-600 dark:text-gray-400">
             Links
           </span>
           <ul className="flex flex-col gap-2">
@@ -46,7 +46,7 @@ const Footer = () => {
             </li>
           </ul>
         </div>
-        <span className="sm:hidden text-gray-600 dark:text-gray-400 tracking-tight">
+        <span className="tracking-tight text-gray-600 dark:text-gray-400 sm:hidden">
           © 2023, Tarcisio Andrade
         </span>
       </footer>

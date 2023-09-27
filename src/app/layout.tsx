@@ -1,31 +1,33 @@
+import Footer from "@/components/footer";
 import Header from "@/components/header";
-import "./globals.css";
+import { ThemeProvider } from "@/components/theme-provider";
 import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
-import Footer from "@/components/footer";
-import { ThemeProvider } from "@/components/theme-provider";
+
+import "./globals.css";
 
 const outfit = Outfit({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.DOMAIN_URL as string),
-  title: "Tarcisio Andrade Blog",
   description: "Artigos sobre react, typescript, testes e etc.",
+  metadataBase: new URL(process.env.DOMAIN_URL as string),
+  openGraph: {
+    description: "Artigos e tutoriais sobre react, typescript, testes e etc.",
+    images: "/op-default-img.png",
+    title: "Tarcisio Andrade",
+    type: "website",
+  },
   themeColor: [
     {
-      media: "(prefers-color-scheme: light)",
       color: "#fff",
+      media: "(prefers-color-scheme: light)",
     },
     {
-      media: "(prefers-color-scheme: dark)",
       color: "#0e141b",
+      media: "(prefers-color-scheme: dark)",
     },
   ],
-  openGraph: {
-    type: "website",
-    description: "Artigos e tutoriais sobre react, typescript, testes e etc.",
-    title: "Tarcisio Andrade Blog",
-  },
+  title: "Tarcisio Andrade",
 };
 
 export default function RootLayout({
