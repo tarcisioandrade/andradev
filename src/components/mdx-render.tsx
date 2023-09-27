@@ -1,95 +1,102 @@
 import React from "react";
-import { useMDXComponent } from "next-contentlayer/hooks";
-import Warning from "./ui-post/warning";
 import Code from "./ui-post/code";
+import Warning from "./ui-post/warning";
+import { cn } from "@/utils/cn";
+import { ExternalLink, Link as LinkIcon } from "lucide-react";
 import { MDXComponents } from "mdx/types";
+import { useMDXComponent } from "next-contentlayer/hooks";
 import Image from "next/image";
 import Link from "next/link";
-import { ExternalLink, Link as LinkIcon } from "lucide-react";
-import { cn } from "@/utils/cn";
 
 type Props = {
   code: string;
 };
 
 const mdxComponents: MDXComponents = {
-  p: ({ children }) => (
-    <p className="mb-6 leading-relaxed post-paragraph">{children}</p>
+  Exlink: ({ children, href }) => {
+    return (
+      <Link
+        className="text-lg text-blue-500 underline-offset-4 hover:underline"
+        href={href!}
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        {children}
+      </Link>
+    );
+  },
+  Image: ({ alt = "Image", src }) => (
+    <Image alt={alt} height={750} src={src!} width={1060} />
   ),
+  Video: ({ src, ...props }) => {
+    const srcWithDomain = `${process.env.DOMAIN_URL}` + src;
+
+    return (
+      <div className="mx-auto mb-16 mt-9">
+        <video
+          autoPlay
+          loop
+          playsInline
+          src={srcWithDomain}
+          {...props}
+          suppressHydrationWarning
+        />
+      </div>
+    );
+  },
   Warning: ({ children }) => <Warning>{children}</Warning>,
+  a: ({ children, href }) => (
+    <a
+      className="text-blue-500 underline-offset-4 hover:underline"
+      href={href!}
+    >
+      {children}
+    </a>
+  ),
+  blockquote: ({ children }) => (
+    <blockquote className="my-12 border-l-4 border-l-slate-500 px-4 text-slate-500">
+      {children}
+    </blockquote>
+  ),
   code: (props) => {
     const classNames = props.className?.split("-") || [];
     return (
       <Code
         code={props.children!.toString().trim()}
-        language={classNames[1]}
         filename={classNames[2]}
+        language={classNames[1]}
       />
     );
   },
-  blockquote: ({ children }) => (
-    <blockquote className="border-l-4 border-l-slate-500 px-4 my-12 text-slate-500">
-      {children}
-    </blockquote>
-  ),
   h1: ({ children, id }) => (
     <h2
+      className="group mb-[32px] mt-[96px] scroll-mt-12 text-3xl font-bold text-blue-600 dark:text-amber-500 xl:scroll-mt-20"
       id={id}
-      className="group mt-[96px] mb-[32px] font-bold text-3xl text-blue-600 dark:text-amber-500 scroll-mt-12 xl:scroll-mt-20"
     >
       {children}
     </h2>
   ),
   h2: ({ children, id }) => (
     <h3
+      className="group mb-[12px] mt-[64px] scroll-mt-12 text-2xl font-bold text-gray-800 dark:text-gray-200 xl:scroll-mt-20"
       id={id}
-      className="group mt-[64px] mb-[12px] font-bold text-2xl text-gray-800 dark:text-gray-200 scroll-mt-12 xl:scroll-mt-20"
     >
       {children}
     </h3>
   ),
-  ol: ({ children }) => <ol className="list-decimal list">{children}</ol>,
-  ul: ({ children }) => <ul className="list-disc list">{children}</ul>,
-  a: ({ children, href }) => (
-    <a
-      href={href!}
-      className="text-blue-500 hover:underline underline-offset-4"
-    >
-      {children}
-    </a>
-  ),
-  img: ({ src, alt = "Image" }) => (
-    <Image src={src!} alt={alt} width={750} height={430} />
-  ),
-  Exlink: ({ children, href }) => {
-    return (
-      <Link
-        href={href!}
-        target="_blank"
-        className="relative items-center gap-1 text-blue-500 text-lg hover:underline underline-offset-4"
-        rel="noopener noreferrer"
-      >
-        {children}
-        <ExternalLink
-          size={12}
-          className="text-current align-top inline-block ml-[-2px]"
-        />
-      </Link>
-    );
-  },
-  video: (props) => (
-    <div className="mt-9 mx-auto mb-16">
-      <video autoPlay loop playsInline {...props} suppressHydrationWarning />
-    </div>
+  ol: ({ children }) => <ol className="list list-decimal">{children}</ol>,
+  p: ({ children }) => (
+    <p className="post-paragraph mb-6 leading-relaxed">{children}</p>
   ),
   span: ({ className }) => (
     <span
-      className={cn(className, "hidden w-6 h-6 group-hover:inline-block ml-2")}
+      className={cn(className, "ml-2 hidden h-6 w-6 group-hover:inline-block")}
     >
       <span className="sr-only">Heading Link</span>
       <LinkIcon className="text-blue-500 dark:text-amber-500" />
     </span>
   ),
+  ul: ({ children }) => <ul className="list list-disc">{children}</ul>,
 };
 
 const MDXRender = ({ code }: Props) => {
