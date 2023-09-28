@@ -1,5 +1,3 @@
-import Footer from "@/components/footer";
-import Header from "@/components/header";
 import { ThemeProvider } from "@/components/theme-provider";
 import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
@@ -9,7 +7,7 @@ import "./globals.css";
 const outfit = Outfit({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  description: "Artigos sobre react, typescript, testes e etc.",
+  description: "Artigos e tutorias sobre react, typescript, testes e etc.",
   metadataBase: new URL(process.env.DOMAIN_URL as string),
   openGraph: {
     description: "Artigos e tutoriais sobre react, typescript, testes e etc.",
@@ -39,9 +37,7 @@ export default function RootLayout({
     <html lang="pt-BR" suppressHydrationWarning>
       <body className={outfit.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <Header />
           {children}
-          <Footer />
         </ThemeProvider>
       </body>
     </html>

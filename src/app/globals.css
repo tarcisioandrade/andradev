@@ -8,11 +8,11 @@
   }
 
   mark {
-    @apply dark:bg-slate-800 bg-gray-200 text-black dark:text-white rounded py-[4.5px] px-[6px];
+    @apply rounded bg-gray-200 px-[6px] py-[4.5px] text-black dark:bg-slate-800 dark:text-white;
   }
 
   iframe {
-    @apply sm:w-full w-[calc(100%+16px*2)] h-[500px] border-none rounded overflow-hidden relative z-10 sm:m-0 m-[calc(16px*-1)];
+    @apply relative z-10 m-[calc(16px*-1)] h-[500px] w-[calc(100%+16px*2)] overflow-hidden rounded border-none sm:m-0 sm:w-full;
   }
 }
 
@@ -36,7 +36,7 @@ body {
 }
 
 .main-container {
-  @apply px-4 max-w-[1100px] mx-auto;
+  @apply mx-auto max-w-[1100px] px-4;
 }
 
 .post-paragraph,
@@ -71,5 +71,5 @@ body {
 }
 
 .list {
-  @apply pl-8 mb-9 [&>li]:mb-4 [&>li]:pl-2 text-lg tracking-wide;
+  @apply mb-9 pl-8 text-lg tracking-wide [&>li]:mb-4 [&>li]:pl-2;
 }
