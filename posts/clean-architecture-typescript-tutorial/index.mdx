@@ -1,0 +1,409 @@
+---
+title: Aplicando Arquitetura Limpa | Typescript & Testes
+publishedAt: 2023-10-19
+image: ../../public/post-assets/clean-architecture-typescript-tutorial/op-image.jpg
+description: A arquitetura limpa é uma abordagem eficaz para garantir que o código seja organizado, modular e escalável. Neste artigo, você aprenderá os princípios fundamentais da arquitetura limpa e como aplicá-los ao desenvolvimento de um blog. Vamos explorar a separação de responsabilidades, a criação de camadas de abstração e a aplicação de princípios SOLID para garantir a flexibilidade e a qualidade do código.
+categories:
+  - arquitetura limpa
+  - testes
+  - typescript
+isPublished: true
+---
+
+No mundo do desenvolvimento de software, há muitas abordagens disponíveis para criar um código que seja organizado, escalável e fácil de ser mantido. Uma dessas abordagens é a famosa Arquitetura Limpa, descrita no livro do Uncle Bob. Neste tutorial, vamos explorar essa abordagem e aplicá-la a um exemplo prático de um blog. Nosso objetivo é criar um código limpo e testável, seguindo as regras de negócios do blog.
+
+<Warning>
+ **Para os Apressados**
+
+Aqui está o repositório do que foi criado neste artigo: <Exlink href="https://github.com/tarcisioandrade/clean_architecture_typescript_tests">Clean Architecture | Typescript & Test</Exlink>
+
+</Warning>
+
+A arquitetura limpa nos diz que a camada central da nossa aplicação deve ser totalmente independente, autosuficiente, as outras camada externas que devem depender dela. Abaixo tem uma imagem retirada do <Exlink href="https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html">blog do Uncle Bob</Exlink> que descreve bem a dependência das camadas.
+
+<Image
+  src="/post-assets/clean-architecture-typescript-tutorial/CleanArchitecture.jpg"
+  alt="Arquitetura Limpa"
+/>
+
+Note que as setas apontam de fora para dentro, elas indicam a direção das dependências, a camada do centro, o núcleo de sua aplicação, não depende de nenhuma outra.
+
+Após essa breve introdução da idéia principal da arquitetura limpa, vamos dar inicio ao tutorial com a seguinte estrutura de pastas inicial onde a pasta core representa o nosso nucléo ou a camada amarela da imagem do Uncle Bob mostrada acima.
+
+```
+node_modules
+src
+| core
+| | shared <- Objetos que irão ser compartilhados entre as entidades.
+package.json
+tsconfig.json
+.gitignore
+```
+
+# Entidades
+
+Nosso blog irá ter duas entidades a <mark>User</mark> e <mark>Post</mark>, uma entidade o **Uncle Bob** descreve como:
+
+> As entidades encapsulam regras de negócios da aplicação. Uma entidade pode ser um objeto com métodos ou pode ser um conjunto de estruturas e funções de dados. Não importa, desde que as entidades possam ser usadas em diferentes lugares da aplicação.
+
+Para distinguir duas instâncias diferentes de uma entidade utilizamos um **identificador único**, nesta aplicação utilizaremos o uuid.
+
+Para facilitar a construção de nossas entidades vamos criar uma class para a implementarmos nas entidades.
+
+```ts
+export class Entity<T extends { id?: string }> {
+  readonly id: string;
+
+  constructor(props: T) {
+    this.id = props.id ? props.id : randomUUID();
+  }
+}
+```
+
+É importante observar que o atributo <mark>id</mark> é opcional. Mas por quê? A razão para isso é que a entidade pode já ter sido criada anteriormente e, nesse caso, apenas queremos instanciá-la novamente. Portanto, passamos o <mark>id</mark> como parâmetro. Por outro lado, se estivermos criando uma nova entidade do zero, a própria instância será responsável por gerar um novo <mark>id</mark> automaticamente.
+
+Agora criaremos nossa entidade <mark>User</mark>.
+
+```ts
+interface IUser {
+  name: string;
+  email: string;
+  password: string;
+}
+
+export class User extends Entity<IUser> {
+  constructor(private user: IUser) {
+    super(user);
+  }
+}
+```
+
+A nossa entidade precisar garantir que os valores sejam passados corretamente para poder instaciar, é ai que entra nossas regras de negócios, vamos criar a nossa primeira regra para o <mark>User</mark>.
+
+O e-mail do <mark>User</mark> deve ter o formato adequado, com o **@** e **.com**, então o que normalmente pensariamos em fazer seria algo assim:
+
+```ts
+export class User extends Entity<IUser> {
+  constructor(private user: IUser) {
+    super(user);
+
+    if (!EMAIL_REGEXP.test(value)) throw new Error("E-mail inválido");
+  }
+}
+```
+
+Esta abordagem funciona, pois impede a criação de um usuário com um e-mail inválido. No entanto, você pode estar se perguntando: "E se eu quiser adicionar mais regras?". É verdade que você pode adicionar mais verificações para validar outros atributos da sua entidade, mas esse modelo pode se tornar insustentável à medida que a complexidade do seu projeto aumenta.
+
+Além disso, esta abordagem pode levar à duplicação de código se você precisar utilizar a mesma validação em outra entidade. É aí que você começa a perceber que essa não pode ser a maneira mais eficiente de lidar com as regras de negócios da aplicação.
+
+# Objeto de Valor
+
+É agora que podemos implementar algo conhecido como **Objeto de Valor**. Essa abordagem é útil quando queremos representar um tipo específico e encapsular as regras de validação relacionadas a esse tipo. Ao utilizar um objeto de valor, podemos reutilizar facilmente essas validações em outras partes do código. Basta instanciar o objeto de valor novamente e teremos acesso às regras de validação encapsuladas nele. Isso nos ajuda a manter a consistência e a reutilização de código em nosso projeto.
+
+Nosso **Objeto de Valor** do <mark>Email</mark> ficará assim:
+
+```ts
+export class Email {
+  constructor(readonly value: string) {
+    if (!EMAIL_REGEXP.test(value)) throw new Error("E-mail inválido");
+  }
+}
+```
+
+Agora vamos trocar o tipo primitivo **string** para nosso **objeto de valor** <mark>Email</mark>.
+
+```ts
+export class User extends Entity<IUser> {
+  readonly name: string;
+  // Trocamos o tipo primitivo "string" para o Objeto de Valor "Email"
+  readonly email: Email;
+  readonly password: string;
+
+  constructor(user: IUser) {
+    super(user);
+    this.name = user.name;
+    this.email = new Email(user.email);
+    this.password = user.password;
+  }
+}
+```
+
+Poderiamos criar outros **objetos de valor** para o <mark>Name</mark> ou <mark>Password</mark>, mas para ser breve, manteremos apenas e-mail.
+
+Seguindo, agora vamos criar a entidade <mark>Post</mark> e um **objeto de valor** referente ao <mark>Title</mark>.
+
+```ts
+export interface IPost {
+  id?: string;
+  title: string;
+  description: string;
+  body: string;
+  created_at: Date;
+  update_at: Date;
+  user_id: string;
+}
+
+export class Post extends Entity<IPost> {
+  readonly title: Title;
+  readonly description: string;
+  readonly body: string;
+  readonly created_at: Date;
+  readonly update_at: Date;
+  readonly user_id: string;
+
+  constructor(props: IPost) {
+    super(props);
+    this.title = new Title(props.title);
+    this.description = props.description;
+    this.body = props.body;
+    this.created_at = props.created_at;
+    this.update_at = props.update_at;
+    this.user_id = props.user_id;
+  }
+}
+```
+
+```ts
+export class Title {
+  constructor(readonly value: string) {
+    if (this.value.length < 10)
+      throw new Error("O titulo não pode conter menos de 10 carácteres.");
+    if (this.value.length > 25)
+      throw new Error("O titulo não pode conter mais de 25 carácteres.");
+  }
+}
+```
+
+Agora que criamos nossa entidade <mark>Post</mark> iremos fazer uma pequena modificação na nossa entidade <mark>User</mark>, adicionando os Posts.
+
+```ts
+interface IUser {
+  id?: string;
+  name: string;
+  email: string;
+  password: string;
+  posts?: Post[];
+}
+
+export class User extends Entity<IUser> {
+  readonly name: string;
+  // Trocamos o tipo primitivo "string" para o Objeto de Valor "Email"
+  readonly email: Email;
+  readonly password: string;
+  readonly posts: Post[] = [];
+
+  constructor(user: IUser) {
+    super(user);
+    this.name = user.name;
+    this.email = new Email(user.email);
+    this.password = user.password;
+    if (user.posts) this.posts = user.posts;
+  }
+}
+```
+
+# Repositório
+
+Depois de criar nossas entidades e definir suas regras de negócio, é hora de avançarmos para a criação do **Repositório**.
+
+O **repositório** é uma interface que define os métodos que serão utilizados para armazenar nossas entidades no banco de dados. Esses métodos podem incluir operações como criar, ler, atualizar e excluir entidades. O objetivo do **repositório** é fornecer uma abstração sobre o acesso ao banco de dados, permitindo que nossa aplicação interaja com as entidades de forma independente da implementação específica do banco de dados.
+
+Dessa forma, podemos facilmente trocar a implementação do **repositório**, conforme necessário, sem afetar o restante da aplicação. Isso proporciona flexibilidade e facilita a manutenção do código, além de promover a separação de responsabilidades e o princípio da inversão de dependência.
+
+Aqui está o **repositório** de nossas entidade <mark>User</mark> e <mark>Post</mark>.
+
+```ts
+export interface UserRepository {
+  create(user: User): Promise<User>;
+  getUserByEmail(email: string): Promise<User | null>;
+  getUsers(): Promise<User[] | null>;
+  getUser(userId: string): Promise<User | null>;
+  delete(userId: string): Promise<void>;
+}
+```
+
+```ts
+export interface PostRepository {
+  create(user: Post): Promise<Post>;
+  getPosts(): Promise<Post[] | null>;
+  getPost(postId: string): Promise<Post | null>;
+  delete(postId: string): Promise<void>;
+}
+```
+
+# Caso de Uso
+
+Com base nessas interfaces, iremos agora criar os **Casos de Uso**.
+
+Os **Casos de Uso** representam as ações que os usuários podem executar em nossa aplicação. Eles encapsulam a lógica de negócio e definem como as entidades interagem entre si para atender aos requisitos do usuário. Cada caso de uso é responsável por uma tarefa específica e define os passos necessários para executá-la com sucesso.
+
+Eu gosto de separar um **caso de uso** por arquivo, para ficar bem explicito as ações disponiveis na aplicação, mas fique a vontade para criar da forma que preferir.
+
+Assim fica um **caso de uso** da entidade <mark>User</mark>.
+
+```ts
+type UserInput = {
+  name: string;
+  email: string;
+  password: string;
+};
+
+export class Create implements UseCase<UserInput, User> {
+  constructor(private repo: UserRepository) {}
+
+  async execute(input: UserInput): Promise<User> {
+    const user = new User(input);
+
+    const newUser = await this.repo.create(user);
+
+    return newUser;
+  }
+}
+```
+
+Vamos criar uma interface chamada <mark>UseCase</mark> para nos auxiliar nas implementações.
+
+```ts
+export interface UseCase<Input, Output> {
+  execute(input: Input): Promise<Output>;
+}
+```
+
+Note que o repositório foi injetado através do construtor. O **Caso de Uso** não precisa ter conhecimento do tipo de banco de dados que está sendo utilizado, seja **SQL**, **Postgres** ou **NoSQL**. No entanto, o que ele realmente precisa é que seja fornecida uma implementação que respeite os métodos definidos na interface do repositório. Essa abordagem permite criar diferentes tipos de implementações, inclusive um **repositório em memória**, que pode ser útil especialmente para realizar testes.
+
+Ao passar o repositório como dependência através do construtor, estamos seguindo o princípio da **inversão de dependência** e tornando nosso código mais flexível e extensível.
+
+Essa abordagem nos ajuda a manter nosso código mais modular, desacoplado e fácil de dar manutenção, além de facilitar a integração com outros componentes do sistema.
+
+Seguindo os mesmos princípios, criei mais dois casos de uso o <mark>Delete</mark> e o <mark>GetUserByEmail</mark>
+
+```ts
+export class Delete implements UseCase<string, void> {
+  constructor(private repo: UserRepository) {}
+
+  async execute(id: string) {
+    await this.repo.delete(id);
+  }
+}
+```
+
+```ts
+export class GetUserByEmail implements UseCase<string, User | null> {
+  constructor(private repo: UserRepository) {}
+
+  async execute(email: string): Promise<User | null> {
+    const user = await this.repo.getUserByEmail(email);
+
+    return user;
+  }
+}
+```
+
+# Testando
+
+Agora que já temos nossas entidades, repositório e casos de uso, podemos prosseguir com os testes para garantir que tudo está funcionando corretamente.
+
+Os testes são uma parte crucial do processo de desenvolvimento, pois nos permitem verificar se todas as funcionalidades estão implementadas corretamente e se os diferentes componentes do sistema estão interagindo de forma adequada.
+
+<Warning>
+  Neste tutorial estarei usando a biblioteca jest para escrever nossos testes.
+
+Para fins de brevidade não mostrarei passo a passo a configuração, mas você pode seguir a <Exlink href="https://jestjs.io/docs/getting-started">documentação</Exlink> para te auxiliar.
+
+</Warning>
+
+Vamos criar nosso **repositório em memória** para ser usado nos testes.
+
+```ts
+export class UserRepositoryMemory implements UserRepository {
+  private users: User[] = [];
+
+  async create(user: User): Promise<User> {
+    this.users.push(user);
+
+    return user;
+  }
+
+  async delete(userId: string): Promise<void> {
+    this.users = this.users.filter((user) => user.id !== userId);
+  }
+
+  async getUser(userId: string): Promise<User | null> {
+    const user = this.users.find((user) => user.id === userId) ?? null;
+
+    return user;
+  }
+
+  async getUsers(): Promise<User[] | null> {
+    return this.users;
+  }
+
+  async getUserByEmail(email: string): Promise<User | null> {
+    return this.users.find((user) => user.email.value === email) ?? null;
+  }
+}
+```
+
+Após, a criação do **repositório em memória**, os teste podem ser escritos assim:
+
+```ts
+const mockUser: UserInput = {
+  name: "Fake User",
+  email: "fakeuser@email.com",
+  password: "123456",
+};
+
+const userRepositoryMemory = new UserRepositoryMemory();
+
+test("should create a new user", async () => {
+  const createUser = new Create(userRepositoryMemory);
+
+  const user = await createUser.execute(mockUser);
+
+  expect(user.email.value).toBe(mockUser.email);
+});
+
+test("should return a user via email", async () => {
+  const getUserByEmail = new GetUserByEmail(userRepositoryMemory);
+
+  const user = await getUserByEmail.execute(mockUser.email);
+
+  expect(user?.name).toBe(mockUser.name);
+});
+
+test("should delete user via id", async () => {
+  const getUserByEmail = new GetUserByEmail(userRepositoryMemory);
+  const deleteUser = new Delete(userRepositoryMemory);
+
+  let user = await getUserByEmail.execute(mockUser.email);
+
+  await deleteUser.execute(user?.id!);
+
+  user = await getUserByEmail.execute(mockUser.email);
+
+  expect(user).toBeNull();
+});
+```
+
+Vamos executar o comando _npm run test_ para executar os testes.
+
+<Image
+  src="/post-assets/clean-architecture-typescript-tutorial/test.jpg"
+  alt="User Repository Memory Tests"
+/>
+
+Podemos ver que nossa implementação está funcionando.
+
+Agora tenho a certeza de que minha aplicação está operando conforme o esperado. Além disso, tornou-se incrivelmente simples realizar testes e implementar diferentes sistemas de gerenciamento de banco de dados, uma vez que nossa aplicação está totalmente desacoplada, independente de qualquer framework, biblioteca ou outro componente externo.
+
+Podemos escrever testes para o <mark>Post</mark> seguindo os mesmos princípios para garantir que a implementação tambem está funcional.
+
+# Conclusão
+
+Ao longo deste artigo, exploramos os princípios da **Arquitetura Limpa**, usando os conceitos de **Entidade**, **Objetos de Valor**, **Casos de Uso**, **Repositório** e a **Inversão de Dependência** e como esses conceitos trabalham em conjunto para criar uma aplicação altamente flexível e testável, garantindo que as preocupações de negócios estejam separadas das preocupações técnicas.
+
+A estrutura de Arquitetura Limpa permitiu a fácil adaptação a diferentes tecnologias e fornecedores de banco de dados, ao mesmo tempo em que manteve a integridade do domínio central.
+
+A aplicação da Inversão de Dependência e o uso de Interfaces facilitaram a substituição de componentes e a implementação de testes unitários, garantindo que a aplicação seja altamente testável e resistente a mudanças.
+
+Ao escrever testes abrangentes e automatizados, verificamos a funcionalidade do sistema de forma consistente, protegendo-o contra regressões e permitindo a evolução contínua. A combinação de todos esses elementos resulta em uma aplicação que não só atende às necessidades de negócios, mas também é escalável, flexível e altamente confiável.
