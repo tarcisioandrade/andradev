@@ -9,7 +9,7 @@ type Props = {
 
 BrightCode.theme = {
   dark: "material-palenight",
-  light: "material-lighter",
+  light: "slack-ochin",
   lightSelector: "html.light",
 };
 
