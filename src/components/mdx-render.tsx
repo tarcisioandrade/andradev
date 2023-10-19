@@ -2,7 +2,7 @@ import React from "react";
 import Code from "./ui-post/code";
 import Warning from "./ui-post/warning";
 import { cn } from "@/utils/cn";
-import { ExternalLink, Link as LinkIcon } from "lucide-react";
+import { Link as LinkIcon } from "lucide-react";
 import { MDXComponents } from "mdx/types";
 import { useMDXComponent } from "next-contentlayer/hooks";
 import Image from "next/image";
@@ -26,7 +26,7 @@ const mdxComponents: MDXComponents = {
     );
   },
   Image: ({ alt = "Image", src }) => (
-    <Image alt={alt} height={750} src={src!} width={1060} />
+    <Image alt={alt} className="my-12" height={750} src={src!} width={1060} />
   ),
   Video: ({ src, ...props }) => {
     const srcWithDomain = `${process.env.DOMAIN_URL}` + src;
