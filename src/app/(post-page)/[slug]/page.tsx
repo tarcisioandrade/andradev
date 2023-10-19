@@ -62,7 +62,7 @@ const PostLayout = ({ params }: { params: { slug: string } }) => {
             dateTime={post.publishedAt}
           >
             {format(
-              parseISO(post.publishedAt),
+              parseISO(post.publishedAt).setUTCHours(3),
               "EEEE, dd 'de' LLLL 'de' yyyy",
               {
                 locale: ptBR,
