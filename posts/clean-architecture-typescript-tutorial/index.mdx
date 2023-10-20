@@ -46,9 +46,9 @@ Nosso blog irá ter duas entidades a <mark>User</mark> e <mark>Post</mark>, uma 
 
 > As entidades encapsulam regras de negócios da aplicação. Uma entidade pode ser um objeto com métodos ou pode ser um conjunto de estruturas e funções de dados. Não importa, desde que as entidades possam ser usadas em diferentes lugares da aplicação.
 
-Para distinguir duas instâncias diferentes de uma entidade utilizamos um **identificador único**, nesta aplicação utilizaremos o uuid.
+Para distinguir duas instâncias diferentes de uma entidade utilizamos um **identificador único**, nesta aplicação utilizaremos o **UUID**.
 
-Para facilitar a construção de nossas entidades vamos criar uma class para a implementarmos nas entidades.
+Para facilitar a construção de nossas entidades vamos criar uma class chamada <mark>Entity</mark> para a implementarmos nas entidades que iremos criar.
 
 ```ts
 export class Entity<T extends { id?: string }> {
@@ -187,7 +187,6 @@ interface IUser {
 
 export class User extends Entity<IUser> {
   readonly name: string;
-  // Trocamos o tipo primitivo "string" para o Objeto de Valor "Email"
   readonly email: Email;
   readonly password: string;
   readonly posts: Post[] = [];
@@ -239,7 +238,15 @@ Os **Casos de Uso** representam as ações que os usuários podem executar em no
 
 Eu gosto de separar um **caso de uso** por arquivo, para ficar bem explicito as ações disponiveis na aplicação, mas fique a vontade para criar da forma que preferir.
 
-Assim fica um **caso de uso** da entidade <mark>User</mark>.
+Antes de proseguir, irei criar uma interface chamada <mark>UseCase</mark> para nos auxiliar nas implementações.
+
+```ts
+export interface UseCase<Input, Output> {
+  execute(input: Input): Promise<Output>;
+}
+```
+
+E assim fica o **caso de uso** <mark>Create</mark> da entidade <mark>User</mark>.
 
 ```ts
 type UserInput = {
@@ -258,14 +265,6 @@ export class Create implements UseCase<UserInput, User> {
 
     return newUser;
   }
-}
-```
-
-Vamos criar uma interface chamada <mark>UseCase</mark> para nos auxiliar nas implementações.
-
-```ts
-export interface UseCase<Input, Output> {
-  execute(input: Input): Promise<Output>;
 }
 ```
 
@@ -344,7 +343,7 @@ export class UserRepositoryMemory implements UserRepository {
 }
 ```
 
-Após, a criação do **repositório em memória**, os teste podem ser escritos assim:
+Após, a criação do **repositório em memória**, os testes podem ser escritos assim:
 
 ```ts
 const mockUser: UserInput = {
@@ -396,14 +395,14 @@ Podemos ver que nossa implementação está funcionando.
 
 Agora tenho a certeza de que minha aplicação está operando conforme o esperado. Além disso, tornou-se incrivelmente simples realizar testes e implementar diferentes sistemas de gerenciamento de banco de dados, uma vez que nossa aplicação está totalmente desacoplada, independente de qualquer framework, biblioteca ou outro componente externo.
 
-Podemos escrever testes para o <mark>Post</mark> seguindo os mesmos princípios para garantir que a implementação tambem está funcional.
+Podemos escrever testes para o <mark>Post</mark> seguindo os mesmos princípios para garantir que a implementação tambem esteja funcional.
 
 # Conclusão
 
 Ao longo deste artigo, exploramos os princípios da **Arquitetura Limpa**, usando os conceitos de **Entidade**, **Objetos de Valor**, **Casos de Uso**, **Repositório** e a **Inversão de Dependência** e como esses conceitos trabalham em conjunto para criar uma aplicação altamente flexível e testável, garantindo que as preocupações de negócios estejam separadas das preocupações técnicas.
 
-A estrutura de Arquitetura Limpa permitiu a fácil adaptação a diferentes tecnologias e fornecedores de banco de dados, ao mesmo tempo em que manteve a integridade do domínio central.
+A estrutura de **Arquitetura Limpa** permitiu a fácil adaptação a diferentes tecnologias e fornecedores de banco de dados, ao mesmo tempo em que manteve a integridade do domínio central.
 
-A aplicação da Inversão de Dependência e o uso de Interfaces facilitaram a substituição de componentes e a implementação de testes unitários, garantindo que a aplicação seja altamente testável e resistente a mudanças.
+A aplicação da **Inversão de Dependência** e o uso de Interfaces facilitaram a substituição de componentes e a implementação de testes unitários, garantindo que a aplicação seja altamente testável e resistente a mudanças.
 
 Ao escrever testes abrangentes e automatizados, verificamos a funcionalidade do sistema de forma consistente, protegendo-o contra regressões e permitindo a evolução contínua. A combinação de todos esses elementos resulta em uma aplicação que não só atende às necessidades de negócios, mas também é escalável, flexível e altamente confiável.
