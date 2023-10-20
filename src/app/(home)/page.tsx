@@ -35,10 +35,15 @@ export default async function Home() {
           <ul className="mt-8 flex flex-wrap gap-2">
             {categories.map((categ, i) => (
               <li
-                className="cursor-pointer rounded-lg bg-blue-600 p-2 capitalize text-white transition-colors hover:bg-blue-600/90 dark:bg-amber-500 dark:text-background dark:hover:bg-amber-400"
+                className="cursor-pointer rounded-lg bg-blue-600 capitalize text-white transition-colors hover:bg-blue-600/90 dark:bg-amber-500 dark:text-background dark:hover:bg-amber-400"
                 key={`${categ}-${i}`}
               >
-                <Link href={`/category/${slugger(categ)}`}>{categ}</Link>
+                <Link
+                  className="block p-2"
+                  href={`/category/${slugger(categ)}`}
+                >
+                  {categ}
+                </Link>
               </li>
             ))}
           </ul>
