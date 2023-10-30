@@ -1,4 +1,4 @@
-import { getUniqueCategories } from "@/utils/getUniqueCategories";
+import { getUniqueCategories } from "@/utils/get-unique-categories";
 import { slugger } from "@/utils/slugger";
 import { MetadataRoute } from "next";
 

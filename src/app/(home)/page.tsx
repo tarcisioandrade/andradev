@@ -1,5 +1,5 @@
 import { PostCard } from "@/components/post-card";
-import { getUniqueCategories } from "@/utils/getUniqueCategories";
+import { getUniqueCategories } from "@/utils/get-unique-categories";
 import { slugger } from "@/utils/slugger";
 import { allPosts } from "contentlayer/generated";
 import { compareDesc } from "date-fns";
@@ -23,7 +23,7 @@ export default async function Home() {
           </p>
           <div className="flex flex-col gap-12">
             {posts.map((post, idx) => (
-              <PostCard key={idx} {...post} />
+              <PostCard key={idx} post={post} />
             ))}
           </div>
         </div>
