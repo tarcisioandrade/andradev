@@ -1,6 +1,5 @@
 import React from "react";
 import { PostCard } from "@/components/post-card";
-import { Post } from "@/types/post";
 import { capitalize } from "@/utils/capitalize";
 import { allPosts } from "contentlayer/generated";
 import { Metadata } from "next";
@@ -24,7 +23,7 @@ const Page = ({ params }: Props) => {
         categ.toLowerCase().replaceAll(/\s/g, "") ===
         params.slug.split("-").join(""),
     ),
-  ) as Post[];
+  );
 
   const postCount = posts.length + (posts.length > 1 ? " Artigos" : " Artigo");
   const categoryToDysplay = capitalize(params.slug.split("-").join(" "));
@@ -49,7 +48,7 @@ const Page = ({ params }: Props) => {
             className="rounded-lg bg-slate-100 p-6 dark:bg-gray-800"
             key={`${post}-${i}`}
           >
-            <PostCard {...post} />
+            <PostCard post={post} />
           </div>
         ))}
       </div>

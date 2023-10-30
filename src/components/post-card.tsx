@@ -1,7 +1,11 @@
 import { Post } from "@/types/post";
 import Link from "next/link";
 
-export function PostCard(post: Post) {
+type Props = {
+  post: Post;
+};
+
+export function PostCard({ post }: Props) {
   return (
     <article>
       <Link className="mb-8" href={post.url}>
