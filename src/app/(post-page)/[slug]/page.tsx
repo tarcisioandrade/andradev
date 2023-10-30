@@ -1,14 +1,12 @@
 import ButtonScrollTop from "@/components/button-scroll-top";
+import CategoryLink from "@/components/category-link";
 import MDXRender from "@/components/mdx-render";
 import MenuToc from "@/components/menu-toc";
-import { Post } from "@/types/post";
-import { slugger } from "@/utils/slugger";
 import { allPosts } from "contentlayer/generated";
 import { format, parseISO } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { Tags, Timer } from "lucide-react";
 import { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 
 export const generateStaticParams = async () =>
@@ -40,10 +38,8 @@ export const generateMetadata = ({
   };
 };
 
-const PostLayout = ({ params }: { params: { slug: string } }) => {
-  const post = allPosts.find(
-    (post) => post._raw.flattenedPath === params.slug,
-  ) as Post;
+const PostPage = ({ params }: { params: { slug: string } }) => {
+  const post = allPosts.find((post) => post._raw.flattenedPath === params.slug);
 
   if (!post) {
     notFound();
@@ -82,19 +78,7 @@ const PostLayout = ({ params }: { params: { slug: string } }) => {
             </li>
             <li className="flex gap-1">
               <Tags className="text-blue-500 dark:text-amber-500" size={20} />
-              <div>
-                {post.categories.map((categ, i) => (
-                  <span key={`${categ}-${i}`}>
-                    <Link
-                      className="capitalize text-blue-500 underline-offset-4 hover:underline"
-                      href={`/category/${slugger(categ)}`}
-                    >
-                      {categ}
-                    </Link>
-                    {i < post.categories.length - 1 && ", "}
-                  </span>
-                ))}
-              </div>
+              <CategoryLink categories={post.categories} />
             </li>
           </ul>
         </div>
@@ -103,10 +87,9 @@ const PostLayout = ({ params }: { params: { slug: string } }) => {
         </article>
       </div>
       <MenuToc toc={post.toc} />
-
       <ButtonScrollTop />
     </main>
   );
 };
 
-export default PostLayout;
+export default PostPage;
