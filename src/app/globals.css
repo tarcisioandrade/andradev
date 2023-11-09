@@ -7,6 +7,10 @@
     @apply scroll-smooth;
   }
 
+  body::before {
+    @apply pointer-events-none fixed bottom-0 left-0 right-0 top-0 z-[60] bg-[url('../../public/noise.png')] bg-auto bg-repeat opacity-50 content-[""];
+  }
+
   mark {
     @apply rounded bg-gray-200 px-[6px] py-[4.5px] text-black dark:bg-slate-800 dark:text-white;
   }
