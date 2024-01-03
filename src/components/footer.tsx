@@ -47,7 +47,7 @@ const Footer = () => {
           </ul>
         </div>
         <span className="tracking-tight text-gray-600 dark:text-gray-400 sm:hidden">
-          © 2023, Tarcisio Andrade
+          © {new Date().getFullYear()}, Tarcisio Andrade
         </span>
       </footer>
     </div>
