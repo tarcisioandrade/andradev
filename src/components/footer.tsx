@@ -10,7 +10,7 @@ const Footer = () => {
             Tarcisio Andrade
           </Link>
           <span className="hidden tracking-tight text-gray-600 dark:text-gray-400 sm:block">
-            © 2023, Tarcisio Andrade
+            © {new Date().getFullYear()}, Tarcisio Andrade
           </span>
         </div>
         <div className="flex flex-col gap-4">
