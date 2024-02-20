@@ -1,0 +1,80 @@
+---
+title: Recursos disponiveis no blog
+publishedAt: 2024-02-20
+image: ../../public/post-assets/clean-architecture-typescript-tutorial/op-image.jpg
+description: Todos os recursos disponiveis para escrever um post no meu blog.
+isPublished: true
+categories:
+  - blog
+  - tutorial
+  - desenvolvimento
+---
+
+<Warning>ESTE POST SÓ IRÁ APARECER EM AMBIENTE DE DESENVOLVIMENTO</Warning>
+
+# Hierarquia de títulos
+
+Começando pela hierarquia de títulos, temos 3 'niveis' que vão ser diferenciados no menuc toc ao lado -->.
+
+```
+\ # <-- Nivel 1
+\ ## <-- Nivel 2
+\ ### <-- Nivel 3
+```
+
+# Links
+
+Alem da forma normal de se utilizar links no MDX, temos uma tag para links externos;
+
+- [Links Internos](http://localhost:3000/blog-posts-utilities)
+- <Exlink href="http://localhost:3000/blog-posts-utilities">Links Externos</Exlink> - Que podem ser usado com a tag <mark>\<Exlink></mark>
+
+# Code Highlight
+
+Estamos utilizando a biblioteca de code highlight chamada Bright.
+
+A sintaxe de utilização é a mesma do MDX.
+
+```
+CODE HIGHLIGHT
+```
+
+Para definir a extensao do arquivo basta declarar no inicio da sintaxe:
+
+```ts
+const CODE_HIGHLIGHT: string = "salve";
+```
+
+Para definir o nome do arquivo, basta declarar após começando por um hífen '-':
+
+```-main.js
+const CODE_HIGHLIGHT = "salve";
+```
+
+# Imagem
+
+Utilize imagem usando a tag <mark>\<Image /></mark>.
+
+A imagem deve está no diretório "public/post-assets", o SRC que você irá colocar na <mark>\<Image /></mark>, ficará assim: _/post-assets/nomedaimagem.jpg_.
+
+<Image src="/post-assets/blog-img.png" />
+
+Note que o diretório public/ foi omitido, pois tem existe um impost alias direto
+no **post-assets**.
+
+# Video
+
+Utilize video usando a tag <mark>\<Video /></mark>.
+
+A sintaxe é a mesma da [Imagem](http://localhost:3000/blog-posts-utilities#imagem).
+
+# Warning
+
+Temos disponivel uma tag <mark>\<Warning></mark>, para destacar mensagems importantes, segue a baixo a forma de uso:
+
+<Warning>
+ **MENSAGEM IMPORTANTE**
+
+Aqui contem uma mensagem importante para você leitor.
+
+</Warning>
