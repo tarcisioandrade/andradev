@@ -37,7 +37,7 @@ const Footer = () => {
             </li>
             <li>
               <Link
-                href="https://tfandrade.netlify.app"
+                href="https://tfandrade.vercel.app"
                 rel="noopener noreferrer"
                 target="_blank"
               >
