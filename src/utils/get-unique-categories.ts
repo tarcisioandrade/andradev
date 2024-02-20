@@ -2,7 +2,14 @@ import { allPosts } from "contentlayer/generated";
 
 export const getUniqueCategories = () => {
   const allCategoriesPosts = allPosts
-    .filter(({ isPublished }) => isPublished)
+    .filter(({ isPublished, title }) => {
+      if (title === "Recursos disponiveis no blog") {
+        return false;
+      }
+      if (isPublished) {
+        return true;
+      }
+    })
     .map(({ categories }) => categories);
 
   const uniqueCategories = new Set<string>();

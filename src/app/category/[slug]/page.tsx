@@ -1,7 +1,7 @@
 import React from "react";
 import { PostCard } from "@/components/post-card";
+import { allBlogPosts } from "@/utils/all-blog-posts";
 import { capitalize } from "@/utils/capitalize";
-import { allPosts } from "contentlayer/generated";
 import { Metadata } from "next";
 
 type Props = {
@@ -17,7 +17,7 @@ export const generateMetadata = ({ params }: Props): Metadata => {
 };
 
 const Page = ({ params }: Props) => {
-  const posts = allPosts.filter((post) =>
+  const posts = allBlogPosts.filter((post) =>
     post.categories.some(
       (categ) =>
         categ.toLowerCase().replaceAll(/\s/g, "") ===

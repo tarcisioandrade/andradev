@@ -1,11 +1,11 @@
 import { PostCard } from "@/components/post-card";
+import { allBlogPosts } from "@/utils/all-blog-posts";
 import { getUniqueCategories } from "@/utils/get-unique-categories";
 import { slugger } from "@/utils/slugger";
-import { allPosts } from "contentlayer/generated";
 import { compareDesc } from "date-fns";
 import Link from "next/link";
 
-const posts = allPosts
+const posts = allBlogPosts
   .filter(({ isPublished }) => isPublished)
   .sort((a, b) =>
     compareDesc(new Date(a.publishedAt), new Date(b.publishedAt)),

@@ -2,7 +2,7 @@ import ButtonScrollTop from "@/components/button-scroll-top";
 import CategoryLink from "@/components/category-link";
 import MDXRender from "@/components/mdx-render";
 import MenuToc from "@/components/menu-toc";
-import { allPosts } from "contentlayer/generated";
+import { allBlogPosts } from "@/utils/all-blog-posts";
 import { format, parseISO } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { Tags, Timer } from "lucide-react";
@@ -10,14 +10,14 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 export const generateStaticParams = async () =>
-  allPosts.map((post) => ({ slug: post._raw.flattenedPath }));
+  allBlogPosts.map((post) => ({ slug: post._raw.flattenedPath }));
 
 export const generateMetadata = ({
   params,
 }: {
   params: { slug: string };
 }): Metadata => {
-  const post = allPosts.find((post) => post._raw.flattenedPath === params.slug);
+  const post = allBlogPosts.find((post) => post._raw.flattenedPath === params.slug);
   if (!post) {
     notFound();
   }
@@ -39,7 +39,7 @@ export const generateMetadata = ({
 };
 
 const PostPage = ({ params }: { params: { slug: string } }) => {
-  const post = allPosts.find((post) => post._raw.flattenedPath === params.slug);
+  const post = allBlogPosts .find((post) => post._raw.flattenedPath === params.slug);
 
   if (!post) {
     notFound();
